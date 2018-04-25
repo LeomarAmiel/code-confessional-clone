@@ -6,7 +6,6 @@ export default class extends Component {
         return (
             <View style={styles.container}>
 				<View>
-
                 	<Text style={styles.headerStyle}> NEW </Text>
 				</View>
 				<View style={styles.middleButton}>
@@ -38,7 +37,8 @@ const styles = StyleSheet.create({
 	},
     headerStyle: {
 		color: "#FFF",
-		padding: 7,
+		padding: 6,
+		fontSize: 12,
 		fontWeight: '800',
     }
 });
