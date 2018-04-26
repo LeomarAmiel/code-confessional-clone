@@ -4,10 +4,17 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import {Navigation} from 'react-native-navigation';
 
 export default class extends React.Component {
+
+	routeToFeed() {
+		Navigation.dismissModal({
+			animationType: 'slide-down'
+		});
+	}
+
     render() {
         return (
             <View style={styles.container}>
-				<TouchableOpacity>
+				<TouchableOpacity onPress={this.routeToFeed}>
                 	<Text style={styles.headerStyle}> &#x2715; </Text>
 				</TouchableOpacity>
             </View>
