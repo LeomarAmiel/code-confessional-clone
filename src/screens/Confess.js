@@ -13,14 +13,14 @@ export default class extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
 		backgroundColor: '#ebebeb',
+		flex: 1,
 	},
 	textArea: {
 		flex: 1,
 		backgroundColor: '#FFF',
 		padding: 5,
-		margin: 8
+		margin: 10
 	}
 
 })
