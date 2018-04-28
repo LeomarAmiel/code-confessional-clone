@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, StatusBar } from 'react-native';
 
 export default class extends Component {
+
+	componentDidMount(){
+
+	}
+
 	render() {
 		this.props.navigator.setStyle({
 			navBarCustomView: 'Component.TopBarHeader',
@@ -9,6 +14,7 @@ export default class extends Component {
 		});
 		return (
 			<View style={styles.container}>
+				<StatusBar barStyle='light-content'/>
 				<View style={styles.confessionContainer}>
 					<Text> Confession One </Text>
 				</View>

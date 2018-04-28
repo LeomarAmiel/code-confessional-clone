@@ -5,7 +5,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/lib/storage';
-import rootReducer from './src/reducers';
+import rootReducer from '../reducers';
 
 const persistConfig = {
 	key: 'root',
