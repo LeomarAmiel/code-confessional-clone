@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, StatusBar, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, StatusBar, TouchableOpacity, ActivityIndicator } from "react-native";
 import { connect } from "react-redux";
 import { fetchData } from "../actions";
 import db from '../../firebase';
@@ -17,20 +17,17 @@ class Feed extends Component {
     }
 
     render() {
-		console.log(this.props.feed.feed);
+		var { fetching, error, confessions } = this.props.feed
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="light-content" />
-				{ this.props.feed.feed !== null 
-					? this.props.feed.feed.map((data, index) => {
-						console.log(data);
-						return (
-							<FeedItem>
-								data.confession
-							</FeedItem>
-						)
-					})
-					: null
+				{ fetching === false && error === null && confessions!==null
+					? confessions.map((data, index) => (
+						<FeedItem key={index}>
+							{data.confession}
+						</FeedItem>
+					))
+					: <ActivityIndicator size='large' style={styles.spinner}/>
 				}
             </View>
         );
@@ -41,7 +38,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#ebebeb"
-    }
+	},
+	spinner: {
+		marginTop: 10
+	}
 });
 
 const mapStateToProps = ({feed}) => ({

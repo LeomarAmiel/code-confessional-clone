@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
-export default (props) => {
-	console.log(props);
+export default (props) => (
 	<View style={styles.container}>
 		<Text> {props.children} </Text>
 	</View>
-}
+)
 
 const styles = StyleSheet.create({
 	container: {

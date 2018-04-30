@@ -9,10 +9,10 @@ function fetchFromFirebase() {
     return db.collection('confessions').get();
 }
 
-function getDocsfromFetch(){
+async function getDocsfromFetch(){
 	let docsArray = [];
 	const response = fetchFromFirebase();
-	response.then((querySnapshot) => {
+	await response.then((querySnapshot) => {
 		var docs = querySnapshot.docs;
 		for(let doc of docs) {
 			docsArray.push(doc.data());
