@@ -1,36 +1,36 @@
 import db from '../../firebase';
-import { put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects';
 
-//Code that works with thunk
+export const API_CALL_REQUEST = "API_CALL_REQUEST";
+export const API_CALL_SUCCESS = "API_CALL_SUCCESS";
+export const API_CALL_FAILURE = "API_CALL_FAILURE";
 
-export function* fetchFromFirebase () {
-	var data = [];
-    db.collection('confessions').get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-			data.push(doc);
-		})
-	});
-	fetchData(data);
+function fetchFromFirebase() {
+    return db.collection('confessions').get();
 }
 
-const fetchData = (payload) => ({
-    type: "GET_TODO",
-    payload
-});
+function getDocsfromFetch(){
+	let docsArray = [];
+	const response = fetchFromFirebase();
+	response.then((querySnapshot) => {
+		var docs = querySnapshot.docs;
+		for(let doc of docs) {
+			docsArray.push(doc.data());
+		}
+	});
+	return docsArray;
+}
+//saga functions
 
-// Following 2.1 of Saga Documentation
+export function* watcherSaga() {
+	yield takeLatest("API_CALL_REQUEST", workerSaga);
+}
 
-// export function* fetchFromFirebase() {
-//		var data = []
-//     const fetchUser = db.collection('confessions').get().then((querySnapshot) => {
-// 			querySnapshot.forEach((doc) => {
-// 				data.push(doc);
-//			})
-//		 }
-//     const payload = yield call(fetchUser);
-//     yield put({ type: "FETCH_DATA", data });
-// }
-
-// export default function* rootSaga() {
-//     yield takeLatest("FETCH_DATA", fetchData);
-// }
+function* workerSaga () {
+	try {
+		const payload = yield call(getDocsfromFetch);
+		yield put({ type: "API_CALL_SUCCESS", payload});
+	} catch (error) {
+		yield put({ type: "API_CALL_FAILURE", payload: error });
+	}
+}

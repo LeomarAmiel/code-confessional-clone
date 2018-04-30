@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/lib/storage';
 import rootReducer from '../reducers';
+import { watcherSaga } from '../actions';
 
 const persistConfig = {
 	key: 'root',
@@ -14,6 +15,7 @@ const persistConfig = {
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(persistReducer(persistConfig, rootReducer), applyMiddleware(sagaMiddleware));
 const persistor = persistStore(store);
+sagaMiddleware.run(watcherSaga);
 
 export function provideStore ( Component ) {
 	return class Container extends React.Component {
