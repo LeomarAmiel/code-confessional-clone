@@ -1,42 +1,55 @@
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, StatusBar } from 'react-native';
+import React, { Component } from "react";
+import { View, Text, StyleSheet, StatusBar, TouchableOpacity } from "react-native";
+import { connect } from "react-redux";
+import { fetchData } from "../actions";
+import db from '../../firebase';
+import FeedItem from '../components/FeedItem';
 
-export default class extends Component {
+class Feed extends Component {
+    constructor(props) {
+        super(props);
 
-	componentDidMount(){
-
-	}
-
-	render() {
-		this.props.navigator.setStyle({
-			navBarCustomView: 'Component.TopBarHeader',
-			navBarBackgroundColor: '#5ebfa5'
+        props.navigator.setStyle({
+            navBarCustomView: "Component.TopBarHeader",
+            navBarBackgroundColor: "#5ebfa5"
 		});
-		return (
-			<View style={styles.container}>
-				<StatusBar barStyle='light-content'/>
-				<View style={styles.confessionContainer}>
-					<Text> Confession One </Text>
-				</View>
-				<View style={styles.confessionContainer}>
-					<Text> Confession Two </Text>
-				</View>
-				<View style={styles.confessionContainer}>
-					<Text> Confession Three </Text>
-				</View>
-			</View>
-		)
-	}
+		props.onRequest();
+    }
+
+    render() {
+		console.log(this.props.feed.feed);
+        return (
+            <View style={styles.container}>
+                <StatusBar barStyle="light-content" />
+				{ this.props.feed.feed !== null 
+					? this.props.feed.feed.map((data, index) => {
+						console.log(data);
+						return (
+							<FeedItem>
+								data.confession
+							</FeedItem>
+						)
+					})
+					: null
+				}
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#ebebeb',
-	},
-	confessionContainer: {
-		backgroundColor: '#FFF',
-		padding: 5,
-		margin: 4
-	}
+    container: {
+        flex: 1,
+        backgroundColor: "#ebebeb"
+    }
+});
+
+const mapStateToProps = ({feed}) => ({
+	feed
 })
+
+const mapDispatchToProps = dispatch => ({
+	onRequest: () => dispatch({ type: "API_CALL_REQUEST" })
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Feed);
