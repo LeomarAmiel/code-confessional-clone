@@ -1,5 +1,5 @@
 import db from '../../firebase';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 
 export const API_CALL_REQUEST = "API_CALL_REQUEST";
 export const API_CALL_SUCCESS = "API_CALL_SUCCESS";
@@ -20,11 +20,6 @@ async function getDocsfromFetch(){
 	});
 	return docsArray;
 }
-//saga functions
-
-export function* watcherSaga() {
-	yield takeLatest("API_CALL_REQUEST", workerSaga);
-}
 
 function* workerSaga () {
 	try {
@@ -34,3 +29,12 @@ function* workerSaga () {
 		yield put({ type: "API_CALL_FAILURE", payload: error });
 	}
 }
+
+export function* watcherSaga() {
+	yield takeEvery("API_CALL_REQUEST", workerSaga);
+}
+
+export const changeCategory = (payload) => ({
+	type: "CHANGE_CATEGORY",
+	payload
+});
