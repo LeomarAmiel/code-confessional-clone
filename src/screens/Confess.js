@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 
-export default class extends Component {
+class Confess extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
@@ -19,8 +20,9 @@ const styles = StyleSheet.create({
 	textArea: {
 		flex: 1,
 		backgroundColor: '#FFF',
-		padding: 5,
+		padding: 10,
 		margin: 10
 	}
-
 })
+
+export default connect()(Confess);
