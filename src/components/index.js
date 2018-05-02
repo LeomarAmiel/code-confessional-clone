@@ -10,6 +10,6 @@ import CloseButton from './CloseButton'
 export function registerComponents() {
   Navigation.registerComponent('Component.TopBarHeader', () => provideStore(TopBarHeader));
   Navigation.registerComponent('Component.ConfessButton', () => ConfessButton);
-  Navigation.registerComponent('Component.PostButton', () => PostButton);
+  Navigation.registerComponent('Component.PostButton', () => provideStore(PostButton));
   Navigation.registerComponent('Component.CloseButton', () => CloseButton);
 }

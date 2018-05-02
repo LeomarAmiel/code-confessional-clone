@@ -1,18 +1,27 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Navigation } from 'react-native-navigation';
+import { connect } from 'react-redux';
 
-export default class extends React.Component {
+
+class PostButton extends React.Component {
+	onPostConfession (){
+		this.props.onPost();
+		Navigation.dismissModal({
+			animationType: 'slide-down'
+		});
+	}
+
     render() {
         return (
             <View style={styles.container}>
-				<TouchableOpacity>
+				<TouchableOpacity onPress={() => this.onPostConfession()}>
                 	<Text style={styles.headerStyle}> Post </Text>
 				</TouchableOpacity>
             </View>
         );
     }
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -28,3 +37,9 @@ const styles = StyleSheet.create({
 		fontWeight: '800',
     }
 });
+
+const mapDispatchToProps = dispatch => ({
+    onPost: () => dispatch({ type: "POST_REQUEST" })
+});
+
+export default connect(null, mapDispatchToProps)(PostButton) 
