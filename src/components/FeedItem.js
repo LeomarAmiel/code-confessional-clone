@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 export default FeedItem = (props) => {
 	return (
 	<View style={styles.container}>
-		<Text style={styles.confession}> {props.children} </Text>
+		<Text style={styles.confession}>{props.children}</Text>
 		<View style={styles.buttonContainer}>
 			<TouchableOpacity style={styles.button}>
 				<Text style={styles.absolveButton}>

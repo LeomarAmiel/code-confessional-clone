@@ -7,7 +7,7 @@ export default class extends React.Component {
 	routeToConfess() {
 		Navigation.showModal({
 			screen: 'Confess',
-			navigatorButtons: {
+			navigatorButtons: {	
 				rightButtons: [{
 					id: 'post-button',
 					component: 'Component.PostButton',
