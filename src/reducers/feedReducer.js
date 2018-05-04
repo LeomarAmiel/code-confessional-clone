@@ -1,9 +1,10 @@
-import {API_CALL_FAILURE, API_CALL_REQUEST, API_CALL_SUCCESS} from '../actions';
+import {API_CALL_FAILURE, API_CALL_REQUEST, API_CALL_SUCCESS, CHANGE_CATEGORY, SORT_CONFESSIONS} from '../actions';
 
 const initialState = {
 	fetching: false,
 	confessions: null,
-	error: null
+	error: null,
+	category: 'new'
 };
 
 export default (state = initialState, action) => {
@@ -16,6 +17,12 @@ export default (state = initialState, action) => {
             break;
         case API_CALL_FAILURE:
 			return { ...state, fetching: false, confessions: null, error: action.payload };
+			break;
+		case CHANGE_CATEGORY:
+            return { ...state, category: action.payload };
+			break;
+		case SORT_CONFESSIONS: 
+			return { ...state, confessions: action.payload};
 			break;
         case "persist/REHYDRATE":
             return { ...state, persistedState: action.payload };

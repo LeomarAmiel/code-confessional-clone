@@ -69,6 +69,6 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = ({feedCategory}) => (feedCategory)
+const mapStateToProps = ({feed}) => ({feedCategory: feed.category});
 
 export default connect(mapStateToProps, { changeCategory })(TopBarHeader);
