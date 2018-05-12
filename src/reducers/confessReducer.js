@@ -1,4 +1,4 @@
-import { POST_SUCCESS, POST_FAIL } from "../actions";
+import { POST_SUCCESS, POST_FAIL, CHANGE_CONFESS_FORM } from "../actions";
 
 const initialState = {
     fetching: false,
@@ -17,7 +17,7 @@ export default (state = initialState, action) => {
         case POST_FAIL:
             return { ...state, error: action.payload };
             break;
-        case "CHANGE_CONFESS_FORM":
+        case CHANGE_CONFESS_FORM:
             return { confess: action.payload };
             break;
         default:

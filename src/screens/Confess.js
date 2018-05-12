@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#FFF',
 		padding: 10,
+		paddingTop: 15,
 		margin: 10
 	}
 })

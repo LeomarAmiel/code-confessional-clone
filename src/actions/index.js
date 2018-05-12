@@ -12,6 +12,12 @@ export const POST_FAIL = 'POST_FAIL'
 export const CHANGE_CATEGORY = 'CHANGE_CATEGORY';
 export const SORT_CONFESSIONS = 'SORT_CONFESSIONS';
 
+export const REACT_CONFESSION = 'REACT_CONFESSION';
+export const REACT_SUCCESS = 'REACT_SUCCESS';
+export const REACT_FAIL = 'REACT_FAIL';
+
+export const CHANGE_CONFESS_FORM = 'CHANGE_CONFESS_FORM';
+
 function fetchFromFirebase() {
     return db.collection('confessions');
 }
@@ -22,7 +28,7 @@ async function getDocsfromFetch(){
 	await response.then((querySnapshot) => {
 		var docs = querySnapshot.docs;
 		for(let doc of docs) {
-			docsArray.push(doc.data());
+			docsArray.push({ ...doc.data(), id: doc.id });
 		}
 	});
 	return docsArray;
@@ -31,10 +37,10 @@ async function getDocsfromFetch(){
 function* fetchDocsSaga () {
 	try {
 		const payload = yield call(getDocsfromFetch);
-		yield put({ type: "API_CALL_SUCCESS", payload});
+		yield put({ type: API_CALL_SUCCESS, payload});
 		yield call(sortConfess);
 	} catch (error) {
-		yield put({ type: "API_CALL_FAILURE", payload: error });
+		yield put({ type: API_CALL_FAILURE, payload: error });
 	}
 }
 
@@ -53,23 +59,34 @@ function* postConfess () {
 function* postConfessSaga() {
 	try { 
 		const payload = yield call(postConfess);
-		yield put({ type: "POST_SUCCESS" });
-		yield put({ type: "API_CALL_REQUEST" });
+		yield put({ type: POST_SUCCESS });
+		yield put({ type: API_CALL_REQUEST });
 	} catch (error) {
-		yield put({ type: "POST_FAIL", error});
+		yield put({ type: POST_FAIL, error});
 	}
 }
 
 function* sortConfess () {
 	const payload = yield select(sortFromCategory);
-	yield put({ type: "SORT_CONFESSIONS", payload})
-	
+	yield put({ type: SORT_CONFESSIONS, payload})	
+}
+
+function* reactToConfessSaga({payload}) {
+	try { 
+		db.collection('confessions').doc(payload.id).update({
+			[payload.action]:  payload[payload.action] + 1
+		});
+		yield put({ type: REACT_SUCCESS, payload });
+	} catch (error) {
+		yield put({ type: REACT_FAIL, error })
+	}
 }
 
 export function* watcherSaga() {
 	yield takeLatest(API_CALL_REQUEST, fetchDocsSaga);
 	yield takeLatest("POST_REQUEST", postConfessSaga);
 	yield takeEvery(CHANGE_CATEGORY, sortConfess);
+	yield takeLatest(REACT_CONFESSION, reactToConfessSaga);
 }
 
 export const changeCategory = (payload) => ({
@@ -78,7 +95,7 @@ export const changeCategory = (payload) => ({
 });
 
 export const changeConfessForm = (payload) => ({
-	type: "CHANGE_CONFESS_FORM",
+	type: CHANGE_CONFESS_FORM,
 	payload
 });
 

@@ -4,7 +4,6 @@ import {
     FlatList,
     StatusBar,
     StyleSheet,
-    Text,
     TouchableOpacity,
     View
 } from "react-native";
@@ -27,10 +26,10 @@ class Feed extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-		return nextProps.feed.fetching!==prevState.refreshing
-		? {refreshing: nextProps.feed.fetching}
-		: null
-	}
+        return nextProps.feed.fetching !== prevState.refreshing
+            ? { refreshing: nextProps.feed.fetching }
+            : null;
+    }
 
     renderList() {
         var { fetching, error, confessions } = this.props.feed;
@@ -38,11 +37,11 @@ class Feed extends Component {
             return (
                 <FlatList
                     data={confessions}
-                    keyExtractor={(item, index) => index.toString()}
+                    keyExtractor={(item, index) => item.id.toString()}
                     onRefresh={() => this.props.onRequest()}
                     refreshing={this.state.refreshing}
                     renderItem={({ item, index }) => (
-                        <FeedItem onData={item}>{item.confession}</FeedItem>
+                        <FeedItem onData={item}/>
                     )}
                 />
             );
